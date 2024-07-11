@@ -1,26 +1,26 @@
 const fs = require("fs");
 const [N, ...commands] = fs
-	.readFileSync("/Users/jimyu/JS-Algorithm/BOJ/class2/test.txt")
+	.readFileSync("/dev/stdin")
 	.toString()
 	.trim()
 	.split("\n");
 
-function stackTop(stack) {
-	if (stack.length === 0) return console.log(-1);
+function stackTop(stack, results) {
+	if (stack.length === 0) return results.push(-1);
 	const popNum = stack[stack.length - 1];
-	return console.log(popNum);
+	return results.push(popNum);
 }
-function stackSize(stack) {
-	return console.log(stack.length);
+function stackSize(stack, results) {
+	return results.push(stack.length);
 }
-function popStack(stack) {
-	if (stack.length === 0) return console.log(-1);
+function popStack(stack, results) {
+	if (stack.length === 0) return results.push(-1);
 	const popNum = stack[stack.length - 1];
 	stack.splice(-1, 1);
-	return console.log(popNum);
+	return results.push(popNum);
 }
-function emptyStack(stack) {
-	return console.log(stack.length === 0 ? 1 : 0);
+function emptyStack(stack, results) {
+	return results.push(stack.length === 0 ? 1 : 0);
 }
 function pushStack(stack, num) {
 	stack[stack.length] = num;
@@ -29,23 +29,24 @@ function pushStack(stack, num) {
 
 function updateStack(N, commands) {
 	const stack = [];
+	const results = [];
 
 	commands.forEach((command) => {
 		switch (command) {
 			case "top":
-				stackTop(stack);
+				stackTop(stack, results);
 				break;
 
 			case "size":
-				stackSize(stack);
+				stackSize(stack, results);
 				break;
 
 			case "pop":
-				popStack(stack);
+				popStack(stack, results);
 				break;
 
 			case "empty":
-				emptyStack(stack);
+				emptyStack(stack, results);
 				break;
 
 			default:
@@ -55,7 +56,7 @@ function updateStack(N, commands) {
 				break;
 		}
 	});
-	return;
+	return console.log(results.join("\n"));
 }
 
 updateStack(N, commands);
