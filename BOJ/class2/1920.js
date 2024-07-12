@@ -1,30 +1,29 @@
 const fs = require("fs");
 const [N, A, M, nums] = fs
-	.readFileSync("/dev/stdin")
+	.readFileSync("/Users/jimyu/JS-Algorithm/BOJ/class2/test.txt")
 	.toString()
 	.trim()
 	.split("\n");
 
 function findM(num, arr) {
-	let tmpArr = [...arr];
-	let isNum = false;
-	let i = 1;
-	while (!isNum && i <= Math.ceil(Math.sqrt(arr.length))) {
-		let centerIdx = Math.ceil(tmpArr.length / 2) - 1;
-		let centerValue = tmpArr[centerIdx];
-		if (num === centerValue) isNum = true;
-		if (centerValue < num) tmpArr.splice(0, centerIdx + 1);
-		if (centerValue > num) tmpArr.splice(centerIdx + 1);
-		i++;
+	let left = 0;
+	let right = arr.length - 1;
+
+	while (left <= right) {
+		let centerIdx = Math.floor((left + right) / 2);
+		if (num === arr[centerIdx]) return true;
+		if (num > arr[centerIdx]) left = centerIdx + 1;
+		if (num < arr[centerIdx]) right = centerIdx - 1;
 	}
-	return isNum;
+	return false;
 }
 
 function findNum(A, nums) {
 	const answer = [];
-	const arrA = A.split(" ");
-	arrA.sort((a, b) => a - b);
-	const arrNums = nums.split(" ");
+	const arrA = A.split(" ")
+		.map(Number)
+		.sort((a, b) => a - b);
+	const arrNums = nums.split(" ").map(Number);
 
 	arrNums.forEach((num) => {
 		const isM = findM(num, arrA);
