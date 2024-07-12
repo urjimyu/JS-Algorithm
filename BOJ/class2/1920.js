@@ -1,6 +1,6 @@
 const fs = require("fs");
 const [N, A, M, nums] = fs
-	.readFileSync("/Users/jimyu/JS-Algorithm/BOJ/class2/test.txt")
+	.readFileSync("/dev/stdin")
 	.toString()
 	.trim()
 	.split("\n");
