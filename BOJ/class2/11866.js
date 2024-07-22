@@ -1,7 +1,6 @@
 const fs = require("fs");
 const [n, k] = fs
-	// .readFileSync("/dev/stdin")
-	.readFileSync("/Users/jimyu/JS-Algorithm/BOJ/class2/test.txt")
+	.readFileSync("/dev/stdin")
 	.toString()
 	.trim()
 	.split(" ")
@@ -27,7 +26,7 @@ function Josephus(n, k) {
 		}
 		count += 1;
 	}
-	console.log(`{${answer.join(", ")}}`);
+	console.log(`<${answer.join(", ")}>`);
 }
 
 Josephus(n, k);
