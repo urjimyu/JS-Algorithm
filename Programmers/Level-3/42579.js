@@ -26,3 +26,27 @@ function solution(genres, plays) {
     // 해당 두 곡의 고유번호 반환
 		.map((t) => t.index);
 }
+
+// 풀이 2 - reduce 활용
+function solution(genres, plays) {
+	const count = {};
+	let answer = [];
+
+	// 장르별 재생수 누적합 저장
+	const acc = genres.reduce((a, c, i) => {
+		debugger;
+		count[c] ? count[c].push([i, plays[i]]) : (count[c] = [[i, plays[i]]]);
+		return a.set(c, a.get(c) ? a.get(c) + plays[i] : plays[i]), a;
+	}, new Map());
+
+
+	[...acc]
+// 각 노래 재생수 별 정렬
+	.sort((a, b) => b[1] - a[1])
+		.map((v) => {
+			answer = answer.concat(
+				count[v[0]].sort((c, d) => d[1] - c[1]).slice(0, 2)
+			);
+		});
+	return answer.map((v) => v[0]);
+}
