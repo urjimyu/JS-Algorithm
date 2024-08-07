@@ -1,5 +1,10 @@
 const fs = require("fs");
 const times = fs.readFileSync("/dev/stdin").toString().trim().split("\n");
+// const times = fs
+// 	.readFileSync("/Users/jimyu/JS-Algorithm/BOJ/class3/test.txt")
+// 	.toString()
+// 	.trim()
+// 	.split("\n");
 const n = times.shift();
 
 function maxMeeting(n, arr) {
