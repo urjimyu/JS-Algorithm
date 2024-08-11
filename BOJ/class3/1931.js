@@ -17,6 +17,7 @@ function maxMeeting(n, arr) {
 		if (answer[answer.length - 1][1] > meetingInfo[i][0]) {
 			continue;
 		}
+		if (answer[answer.length - 1][1] === meetingInfo[i][1]) continue;
 		answer.push(meetingInfo[i]);
 	}
 
