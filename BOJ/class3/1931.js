@@ -8,20 +8,21 @@ const times = fs.readFileSync("/dev/stdin").toString().trim().split("\n");
 const n = times.shift();
 
 function maxMeeting(n, arr) {
-	const answer = [];
 	const meetingInfo = arr.map((item) => item.split(" ").map(Number));
 
 	meetingInfo.sort((a, b) => a[1] - b[1]);
-	answer.push(meetingInfo[0]);
-	for (let i = 1; i < n; i++) {
-		if (answer[answer.length - 1][1] > meetingInfo[i][0]) {
-			continue;
-		}
-		if (answer[answer.length - 1][1] === meetingInfo[i][1]) continue;
-		answer.push(meetingInfo[i]);
-	}
 
-	return console.log(answer.length);
+	let endTime = 0;
+	let count = 0;
+
+	for (let i = 0; i < n; i++) {
+		const [start, end] = meetingInfo[i];
+		if (start >= endTime) {
+			endTime = end;
+			count++;
+		}
+	}
+	return console.log(count);
 }
 
-maxMeeting(n, times);
+maxMeeting(+n, times);
