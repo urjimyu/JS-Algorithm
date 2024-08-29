@@ -11,13 +11,12 @@ const [...ranges] = inputs.map((item) => item.split(" ").map(Number));
 
 const solution = (n, m, ranges, nums) => {
 	const answer = [];
+	const memo = Array.from({ length: n + 1 }).fill(0);
+	nums.forEach((v, idx) => (memo[idx + 1] = memo[idx] + v));
 
 	for (let i = 0; i < ranges.length; i++) {
 		const [start, end] = ranges[i];
-		let sum = 0;
-		for (let j = start - 1; j <= end - 1; j++) {
-			sum += nums[j];
-		}
+		let sum = memo[end] - memo[start - 1];
 		answer.push(sum);
 	}
 
