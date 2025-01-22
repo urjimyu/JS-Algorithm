@@ -1,4 +1,5 @@
 const [n, vals] = require("fs")
+	// .readFileSync("/Users/jimyu/JS-Algorithm/BOJ/class3/test.txt")
 	.readFileSync("/dev/stdin")
 	.toString()
 	.trim()
