@@ -6,23 +6,78 @@ const [n, ...inputs] = fs
 	.split("\n")
 	.map(Number);
 
-// function solution(n, arr) {
-// 	let tmpArr = [];
-// 	let answer = [];
+class MinHeap {
+	constructor() {
+		this.heap = [];
+	}
 
-// 	for (let i = 0; i < n; i++) {
-// 		if (arr[i] === 0) {
-// 			if (tmpArr.length === 0) answer.push(0);
-// 			else {
-// 				tmpArr.sort((a, b) => a - b);
-// 				let num = tmpArr[0];
-// 				tmpArr = tmpArr.slice(1);
-// 				answer.push(num);
-// 			}
-// 		} else tmpArr.push(arr[i]);
-// 	}
+	// 최소값을 루트로 올리는 과정
+	heapifyUp(index) {
+		const parentIndex = Math.floor((index - 1) / 2);
+		if (parentIndex >= 0 && this.heap[index] < this.heap[parentIndex]) {
+			[this.heap[index], this.heap[parentIndex]] = [
+				this.heap[parentIndex],
+				this.heap[index],
+			];
+			this.heapifyUp(parentIndex);
+		}
+	}
 
-// 	return console.log(answer.join("\n"));
-// }
+	// 삭제 후 재정렬하는 과정
+	heapifyDown(index) {
+		const len = this.heap.length;
+		let smallest = index;
+		const leftChild = 2 * index + 1;
+		const rightChild = 2 * index + 2;
 
-// solution(n, inputs);
+		if (leftChild < len && this.heap[leftChild] < this.heap[smallest]) {
+			smallest = leftChild;
+		}
+		if (rightChild < len && this.heap[rightChild] < this.heap[smallest]) {
+			smallest = rightChild;
+		}
+
+		if (smallest !== index) {
+			[this.heap[smallest], this.heap[index]] = [
+				this.heap[index],
+				this.heap[smallest],
+			];
+			this.heapifyDown(smallest);
+		}
+	}
+
+	insert(value) {
+		this.heap.push(value);
+		this.heapifyUp(this.heap.length - 1);
+	}
+
+	extractMin() {
+		if (this.heap.length === 0) {
+			return null;
+		}
+
+		const min = this.heap[0];
+		const lastIdx = this.heap.length - 1;
+		this.heap[0] = this.heap[lastIdx];
+		this.heap.pop();
+		this.heapifyDown(0);
+
+		return min;
+	}
+}
+
+const minHeap = new MinHeap();
+const answer = [];
+
+for (let i = 0; i < n; i++) {
+	const x = inputs[i];
+
+	if (x !== 0) {
+		minHeap.insert(x);
+	} else {
+		const min = minHeap.extractMin() || 0;
+		answer.push(min);
+	}
+}
+
+console.log(answer.join("\n"));
