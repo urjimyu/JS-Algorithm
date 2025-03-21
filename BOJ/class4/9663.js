@@ -1,49 +1,36 @@
-const n = require("fs")
-	// .readFileSync("/dev/stdin")
-	.readFileSync("/Users/jimyu/JS-Algorithm/BOJ/class4/test.txt")
+const fs = require("fs");
+const input = fs
+	// .readFileSync('/dev/stdin')
+	.readFileSync("./test.txt")
 	.toString()
-	.trim()
-	.split("\n")
-	.map(Number);
+	.trim();
 
-// 퀸이 서로 공격할 수 없으려면 좌우상하 같은 x,y값인지 검사 + 대각선도 체크
-const checkLine = (visited, x, y) => {
-	visited.map((v, i) => {
-		if (i === x) v = true;
-		v[y] = true;
-	});
-};
+const n = Number(input);
+const queens = [];
+let count = 0;
 
-const checkDiagonal = (visited, x, y) => {
-	visited.map((v, i) => {
-		if (i === x) v = true;
-		v[y] = true;
-	});
-};
-
-function nQueen(n) {
-	let answer = 0;
-	let startX = 0;
-	let startY = 0;
-	let queens = 0;
-
-	const visited = Array.from((length = n), () => new Array(n).fill(false));
-
-	for (let i = 0; i < n; i++) {
-		for (let j = 0; j < n; j++) {
-      if (queens === n) {
-        answer += 1;
-        return;// 임시
-      }
-			if (!visited[i][j]) {
-				visited[i][j] = true;
-				queens += 1;
-				checkLine(startX, startY);
-				checkDiagonal(startX, startY);
-			}
-		}
+function possible(x, y) {
+	for (const [a, b] of queens) {
+		if (a === x || b === y) return false;
+		if (Math.abs(a - x) === Math.abs(b - y)) return false;
 	}
-	return answer;
+	return true;
 }
 
-nQueen(n);
+function dfs(row) {
+	if (row === n) {
+		count++;
+		return;
+	}
+
+	for (let i = 0; i < n; i++) {
+		if (!possible(row, i)) continue;
+		queens.push([row, i]);
+		dfs(row + 1);
+		queens.pop(); // 백트래킹 포인트
+	}
+}
+
+dfs(0);
+
+console.log(count);
